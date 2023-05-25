@@ -1,50 +1,116 @@
+import java.math.BigInteger;
 import java.util.*;
-import java.util.stream.Collectors;
 
-/*
- * Created by piyush_sagar on 11/14/19.
+/**
+ * Created by psagar on 11/9/2017.
  */
 public class Tester {
     public static void main(String[] args) {
-        int arr[] =  {10, 8, 18, 5, 3, 1, 7, 9};
+        HashMap<Employee, String> map = new HashMap<>();
+        Employee e = new Employee("a", 10);
+        map.put(e, "s1");
+        e.setName("b");
+        map.put(e, "s2");
 
-        int res = maxProfit(arr);
-        System.out.println(res);
-        // n + n
+        Integer a = 128;
+        Integer b = 128;
 
-        // ltrMin[], rtolMax[]
-        // Iteratre
-        // ltrMin = [10, 8, 8, 5, 5, 5, 3, 3]
-        // rtlMax = [18, 18, 18, 16, 16 ,9 ,9, 9]
-
-        List<Object> l = new ArrayList<>();
-        l.add(5);
-        //l.add();
-        l.add("kk");
-        Map<Integer, List<Integer>> m = new HashMap<>();
-
-        m.keySet().stream().max((o1, o2) -> o1 > o2 ? 1 : -1);
-        m.values().stream().mapToInt(ll -> ll.size()).max().getAsInt();
-
-        String s = "lkl";
-        Map<Character, Integer> mm = s.chars().mapToObj(c -> (char) c).collect(Collectors.toMap(c -> c, c -> 1, (a, b) -> a + b));
-
-        Collections.emptyMap();
-        //Object
+        System.out.println(a == b);
+        //System.out.println(map.size());
+        //System.out.println(map.get(e));
+        List<? extends Number> ln = new ArrayList<Integer>();
+        // ln.add(8);
+        // call(() -> {});
+        //new Java8test().method2();
+        //System.out.println(fibonacciModified(0,1,10).toString());
+        System.out.println(exceptionTest(5));
     }
 
-    static int maxProfit(int A[]) {
-        int max = 0;
-        int i=0;
-        while (i<A.length) {
-            int cur = A[i];
-            int j = i+1;
-            while (j < A.length && A[j] > cur) {
-                max = Math.max(max, A[j] - cur);
-                j++;
-            }
-            i = j;
+    static int exceptionTest(int a) {
+        try {
+            a = a + 3;
+            return a + 3;
+        } finally {
+            return a + 2;
         }
-        return max;
+    }
+
+    static BigInteger fibonacciModified(int t1, int t2, int n) {
+        // Complete this function
+        BigInteger sum = BigInteger.valueOf(0);
+        BigInteger a = BigInteger.valueOf(t1);
+        BigInteger b = BigInteger.valueOf(t2);
+        for (int i=3; i<=n; i++) {
+            sum = a.add (b.multiply(b));
+            a = b;
+            b = sum;
+        }
+        return sum;
+    }
+
+    static void call(Callback callback) {
+        callback.call();
+    }
+}
+
+interface Callback {
+    void call();
+    default void method2() {
+        System.out.println("defaiult called");
+    }
+}
+
+class Java8test implements Callback {
+
+    @Override
+    public void call() {
+
+    }
+
+
+}
+
+class Employee {
+    private String name;
+    private int id;
+
+    public Employee() {
+    }
+
+    public Employee(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        //if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Employee employee = (Employee) o;
+
+        return name != null ? name.equals(employee.name) : employee.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int name = this.name == null ? 0 : this.name.hashCode();
+        return 50 + name * this.id;
     }
 }
